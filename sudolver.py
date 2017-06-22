@@ -1,10 +1,5 @@
 #!/usr/bin/env python
 from copy import deepcopy
-from time import sleep
-
-
-class Cell(object):
-    pass
 
 
 class Solver(object):
@@ -17,7 +12,6 @@ class Solver(object):
                 for col in range(9):
                     # print("Checking ({},{})".format(row, col))
                     if solvee.get_cell(row, col) is None:
-                        # sleep(0.1)
                         options = self.get_options_for_cell(solvee, row, col)
                         if len(options) == 0:
                             raise Exception("No valid options for this cell")
@@ -85,7 +79,6 @@ class Sudoku(object):
         self.__initialize_state(initial_state)
 
     def __initialize_state(self, initial_state=None):
-        # self.state = [Cell() for i in range(81)]
         if initial_state:
             self.state = initial_state
         else:
