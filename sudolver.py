@@ -5,13 +5,12 @@ from copy import deepcopy
 class Solver(object):
 
     def solve(self, sudoku):
-
         solvee = deepcopy(sudoku)
         while not self.is_solved(solvee):
             for row in range(9):
                 for col in range(9):
                     # print("Checking ({},{})".format(row, col))
-                    if solvee.get_cell(row, col) is None:
+                    if solvee.get_cell((row, col)) is None:
                         options = self.get_options_for_cell(solvee, row, col)
                         if len(options) == 0:
                             raise Exception("No valid options for this cell")
@@ -84,24 +83,27 @@ class Sudoku(object):
         else:
             self.state = [None for i in range(81)]
 
+    def get_cell(self, cell):
+        row, col = cell
+        if row < 0 or col < 0 or row > 8 or col > 8:
+            raise ValueError("Cell ({}, {}) out of valid range [(0,0) - (8,8)]".format(row, col))
+        return self.get_row(row)[col]
+
     def get_row(self, row):
         if 0 <= row <= 8:
             return self.state[row * 9:row * 9 + 9]
-        raise Exception("Row out of range: {}".format(row))
+        raise ValueError("Row {} out of valid range [0-8]".format(row))
 
     def get_column(self, col):
         if 0 <= col <= 8:
             return [self.state[i] for i in range(col, col + 9 * 9, 9)]
-        raise Exception("Column out of range: {}".format(col))
+        raise ValueError("Column {} out of valid range [0-8]".format(col))
 
     def get_quadrant(self, quadrant):
         if 0 <= quadrant <= 8:
             idx = (quadrant % 3) * 3 + (quadrant // 3) * 27
             return self.state[idx:idx + 3] + self.state[idx + 9:idx + 12] + self.state[idx + 18:idx + 21]
-        raise Exception("Quadrant out of range: {}".format(quadrant))
-
-    def get_cell(self, row, col):
-        return self.get_row(row)[col]
+        raise ValueError("Quadrant {} out of valid range [0-8]".format(quadrant))
 
     def set_cell(self, row, col, value):
         self.state[9 * row + col] = value
