@@ -27,7 +27,7 @@ class Solver(object):
                         # print("Cell already filled")
             print("Evaluation round complete")
         print("Sudoku is solved")
-        return sudoku
+        return solvee
 
     def is_solved(self, sudoku):
         for cell in sudoku.state:
