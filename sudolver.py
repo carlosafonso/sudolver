@@ -6,62 +6,24 @@ class Solver(object):
 
     def solve(self, sudoku):
         solvee = deepcopy(sudoku)
-        while not self.is_solved(solvee):
+        while not solvee.is_solved():
             for row in range(9):
                 for col in range(9):
-                    # print("Checking ({},{})".format(row, col))
                     if solvee.get_cell((row, col)) is None:
                         options = self.get_options_for_cell(solvee, row, col)
                         if len(options) == 0:
                             raise Exception("No valid options for this cell")
                         if len(options) == 1:
                             value = options.pop()
-                            # print("Cell has only one option: {}".format(value))
                             solvee.set_cell((row, col), value)
-                            self.__print_puzzle(solvee)
-                        else:
-                            pass
-                            # print("Cell has more than one option: {}".format(options))
-                    else:
-                        pass
-                        # print("Cell already filled")
-            print("Evaluation round complete")
-        print("Sudoku is solved")
         return solvee
-
-    def is_solved(self, sudoku):
-        for cell in sudoku.state:
-            if cell is None:
-                return False
-        return True
 
     def get_options_for_cell(self, sudoku, row, col):
         in_row = sudoku.get_row(row)
         in_col = sudoku.get_column(col)
-        in_quadrant = sudoku.get_quadrant(self.__quadrant_for_row_col(row, col))
+        in_quadrant = sudoku.get_quadrant_for_cell((row, col))
         taken = set(in_row + in_col + in_quadrant)
-        # print(in_row, in_col, in_quadrant, taken)
-        options = set(range(1, 10)).difference(taken)
-        return options
-
-    def __quadrant_for_row_col(self, row, col):
-        if row <= 2:
-            if col >= 6:
-                return 2
-            if col >= 3:
-                return 1
-            return 0
-        if row <= 5:
-            if col >= 6:
-                return 5
-            if col >= 3:
-                return 4
-            return 3
-        if col >= 6:
-            return 8
-        if col >= 3:
-            return 7
-        return 6
+        return set(range(1, 10)).difference(taken)
 
     def __print_puzzle(self, sudoku):
         string = "\n\n"
