@@ -83,6 +83,9 @@ class Sudoku(object):
         else:
             self.state = [None for i in range(81)]
 
+    def get_all_cells(self):
+        return self.state
+
     def get_cell(self, cell):
         row, col = cell
         if not 0 <= row <= 8 or not 0 <= col <= 8:
@@ -105,8 +108,18 @@ class Sudoku(object):
             return self.state[idx:idx + 3] + self.state[idx + 9:idx + 12] + self.state[idx + 18:idx + 21]
         raise ValueError("Quadrant {} out of valid range [0-8]".format(quadrant))
 
+    def get_quadrant_for_cell(self, cell):
+        row, col = cell
+        return self.get_quadrant(3 * (row // 3) + (col // 3))
+
     def set_cell(self, cell, value):
         row, col = cell
         if not 0 <= row <= 8 or not 0 <= col <= 8:
             raise ValueError("Cell ({}, {}) out of valid range [(0,0) - (8,8)]".format(row, col))
         self.state[9 * row + col] = value
+
+    def is_solved(self):
+        for cell in self.state:
+            if cell is None:
+                return False
+        return True
