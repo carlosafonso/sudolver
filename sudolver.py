@@ -17,7 +17,7 @@ class Solver(object):
                         if len(options) == 1:
                             value = options.pop()
                             # print("Cell has only one option: {}".format(value))
-                            solvee.set_cell(row, col, value)
+                            solvee.set_cell((row, col), value)
                             self.__print_puzzle(solvee)
                         else:
                             pass
@@ -85,7 +85,7 @@ class Sudoku(object):
 
     def get_cell(self, cell):
         row, col = cell
-        if row < 0 or col < 0 or row > 8 or col > 8:
+        if not 0 <= row <= 8 or not 0 <= col <= 8:
             raise ValueError("Cell ({}, {}) out of valid range [(0,0) - (8,8)]".format(row, col))
         return self.get_row(row)[col]
 
@@ -105,5 +105,8 @@ class Sudoku(object):
             return self.state[idx:idx + 3] + self.state[idx + 9:idx + 12] + self.state[idx + 18:idx + 21]
         raise ValueError("Quadrant {} out of valid range [0-8]".format(quadrant))
 
-    def set_cell(self, row, col, value):
+    def set_cell(self, cell, value):
+        row, col = cell
+        if not 0 <= row <= 8 or not 0 <= col <= 8:
+            raise ValueError("Cell ({}, {}) out of valid range [(0,0) - (8,8)]".format(row, col))
         self.state[9 * row + col] = value

@@ -29,6 +29,27 @@ class TestSudoku(unittest.TestCase):
         """get_cell should fail if the given column is greater than 8"""
         self.assertRaises(ValueError, self.sudoku.get_cell, (0, 9))
 
+    def test_set_cell(self):
+        """set_cell should set the given value in the cell"""
+        self.sudoku.set_cell((2, 2), 0)
+        self.assertEqual(0, self.sudoku.get_cell((2, 2)))
+
+    def test_set_cell_with_negative_row(self):
+        """set_cell should fail if the given row is negative"""
+        self.assertRaises(ValueError, self.sudoku.set_cell, (-1, 0), 0)
+
+    def test_set_cell_with_too_large_row(self):
+        """set_cell should fail if the given row is greater than 8"""
+        self.assertRaises(ValueError, self.sudoku.set_cell, (9, 0), 0)
+
+    def test_set_cell_with_negative_column(self):
+        """set_cell should fail if the given column is negative"""
+        self.assertRaises(ValueError, self.sudoku.set_cell, (0, -1), 0)
+
+    def test_set_cell_with_too_large_column(self):
+        """set_cell should fail if the given column is greater than 8"""
+        self.assertRaises(ValueError, self.sudoku.set_cell, (0, 9), 0)
+
     def test_get_row(self):
         """get_row should return all values in the row"""
         expected = [8, 7, 6, 1, 9, 2, 5, 4, 3]
