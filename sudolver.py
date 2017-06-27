@@ -25,14 +25,6 @@ class Solver(object):
         taken = set(in_row + in_col + in_quadrant)
         return set(range(1, 10)).difference(taken)
 
-    def __print_puzzle(self, sudoku):
-        string = "\n\n"
-        for (idx, val) in enumerate(sudoku.state):
-            if idx % 9 == 0:
-                string = string + "\n"
-            string = string + " {} ".format(val if val else " ")
-        print(string)
-
 
 class Sudoku(object):
 
@@ -85,3 +77,46 @@ class Sudoku(object):
             if cell is None:
                 return False
         return True
+
+
+class Renderer(object):
+
+    def render(self, sudoku):
+        template = "{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}\n{}"
+        return template.format(self.__get_top_border(),
+                               self.__get_row(0, sudoku),
+                               self.__get_middle_border_light(),
+                               self.__get_row(1, sudoku),
+                               self.__get_middle_border_light(),
+                               self.__get_row(2, sudoku),
+                               self.__get_middle_border_bold(),
+                               self.__get_row(3, sudoku),
+                               self.__get_middle_border_light(),
+                               self.__get_row(4, sudoku),
+                               self.__get_middle_border_light(),
+                               self.__get_row(5, sudoku),
+                               self.__get_middle_border_bold(),
+                               self.__get_row(6, sudoku),
+                               self.__get_middle_border_light(),
+                               self.__get_row(7, sudoku),
+                               self.__get_middle_border_light(),
+                               self.__get_row(8, sudoku),
+                               self.__get_bottom_border())
+
+    def __get_top_border(self):
+        return "╔═══════════════════════════════════╗"
+
+    def __get_bottom_border(self):
+        return "╚═══════════════════════════════════╝"
+
+    def __get_middle_border_light(self):
+        return "║───────────║───────────║───────────║"
+
+    def __get_middle_border_bold(self):
+        return "╠═══════════╬═══════════╬═══════════╣"
+
+    def __get_row(self, row, sudoku):
+        row = [" " if not i else str(i) for i in sudoku.get_row(row)]
+        return "║ {} ║ {} ║ {} ║".format(" │ ".join(row[0:3]),
+                                         " │ ".join(row[3:6]),
+                                         " │ ".join(row[6:9]))
