@@ -104,13 +104,13 @@ class Renderer(object):
                                self.__get_bottom_border())
 
     def __get_top_border(self):
-        return "╔═══════════════════════════════════╗"
+        return "╔═══════════╦═══════════╦═══════════╗"
 
     def __get_bottom_border(self):
-        return "╚═══════════════════════════════════╝"
+        return "╚═══════════╩═══════════╩═══════════╝"
 
     def __get_middle_border_light(self):
-        return "║───────────║───────────║───────────║"
+        return "║───┼───┼───║───┼───┼───║───┼───┼───║"
 
     def __get_middle_border_bold(self):
         return "╠═══════════╬═══════════╬═══════════╣"
